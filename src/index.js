@@ -2,7 +2,8 @@ import { loadProjects, saveProjects } from "./logic";
 import "./style.css";
 
 let container = document.querySelector("#container");
-let projects = loadProjects();
+let allProjects = loadProjects();
+let currentProjects = allProjects;
 
 const createTitle = () => {
   let title = document.createElement("h1");
@@ -12,7 +13,14 @@ const createTitle = () => {
   return title;
 };
 
-const createSidebar = (projects) => {
+const updateTaskList = () => {
+  let content = document.querySelector(".content");
+  let oldTaskList = document.querySelector(".tasks");
+  let newTaskList = createTaskList();
+  content.replaceChild(newTaskList, oldTaskList);
+};
+
+const createSidebar = () => {
   let sidebar = document.createElement("div");
   sidebar.classList.add("sidebar");
 
@@ -31,12 +39,14 @@ const createSidebar = (projects) => {
     allProjectsButton.classList.add("selected");
     let content = document.querySelector(".content");
     let oldTaskList = document.querySelector(".tasks");
-    let newTaskList = createTaskList(projects);
+    currentProjects = allProjects;
+    let newTaskList = createTaskList();
     content.replaceChild(newTaskList, oldTaskList);
   };
+  allProjectsButton.classList.add("selected");
   projectsDiv.appendChild(allProjectsButton);
 
-  projects.forEach((project) => {
+  currentProjects.forEach((project) => {
     let projectButton = document.createElement("button");
     projectButton.textContent = project.name;
     projectButton.onclick = () => {
@@ -44,10 +54,8 @@ const createSidebar = (projects) => {
         button.classList.remove("selected");
       });
       projectButton.classList.add("selected");
-      let content = document.querySelector(".content");
-      let oldTaskList = document.querySelector(".tasks");
-      let newTaskList = createTaskList([project]);
-      content.replaceChild(newTaskList, oldTaskList);
+      currentProjects = [project];
+      updateTaskList();
     };
     projectsDiv.appendChild(projectButton);
   });
@@ -123,10 +131,10 @@ const createTask = (task) => {
   return taskDiv;
 };
 
-const createTaskList = (projects) => {
+const createTaskList = () => {
   let tasksDiv = document.createElement("div");
   tasksDiv.classList.add("tasks");
-  projects.forEach((project) => {
+  currentProjects.forEach((project) => {
     for (let task of project.tasks()) {
       tasksDiv.appendChild(createTask(task));
     }
@@ -135,11 +143,50 @@ const createTaskList = (projects) => {
   return tasksDiv;
 };
 
+const createOperationButtons = () => {
+  let operationButtons = document.createElement("div");
+  let newTaskButton = document.createElement("button");
+  let clearCompletedTasksButton = document.createElement("button");
+  let clearAllButton = document.createElement("button");
+
+  operationButtons.classList.add("operationButtons");
+  newTaskButton.classList.add("operationButton");
+  clearCompletedTasksButton.classList.add("operationButton");
+  clearAllButton.classList.add("operationButton");
+
+  newTaskButton.textContent = "New Task";
+  clearCompletedTasksButton.textContent = "Clear Completed";
+  clearAllButton.textContent = "Clear All";
+
+  newTaskButton.onclick = () => {};
+
+  clearCompletedTasksButton.onclick = () => {
+    currentProjects.forEach((project) => {
+      project.clearCompleted();
+    });
+    updateTaskList();
+  };
+
+  clearAllButton.onclick = () => {
+    currentProjects.forEach((project) => {
+      project.clearAll();
+    });
+    updateTaskList();
+  };
+
+  operationButtons.appendChild(newTaskButton);
+  operationButtons.appendChild(clearCompletedTasksButton);
+  operationButtons.appendChild(clearAllButton);
+
+  return operationButtons;
+};
+
 const createContent = () => {
   let content = document.createElement("div");
   content.classList.add("content");
-  content.appendChild(createSidebar(projects));
-  content.appendChild(createTaskList(projects));
+  content.appendChild(createSidebar());
+  content.appendChild(createTaskList());
+  content.appendChild(createOperationButtons());
 
   return content;
 };

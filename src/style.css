@@ -5,11 +5,29 @@
   user-select: none;
 }
 :root {
-  --text: #fffafc;
+  /* --text: #fffafc;
   --background: #000000;
   --primary: #d51052;
   --secondary: #390416;
-  --accent: #ee1b62;
+  --accent: #ee1b62; */
+
+  --text: rgb(254, 249, 236);
+  --background: rgb(20, 15, 0);
+  --primary: rgb(255, 132, 0);
+  --secondary: rgb(41, 31, 0);
+  --accent: rgb(248, 108, 48);
+
+  /* --text: rgb(226, 222, 252);
+  --background: rgb(9, 4, 47);
+  --primary: rgb(181, 203, 16);
+  --secondary: rgb(27, 61, 5);
+  --accent: rgb(237, 159, 33); */
+
+  /* --text: #fafbf4;
+  --background: #030401;
+  --primary: #d5dda2;
+  --secondary: #292d11;
+  --accent: #aebd4c; */
 }
 
 html {
@@ -183,6 +201,24 @@ body {
   visibility: visible;
   opacity: 1;
   height: auto;
+}
+
+.operationButtons {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.operationButton {
+  width: 12rem;
+  height: 4rem;
+  border-radius: 0.4rem;
+  background-color: var(--secondary);
+  transition: 0.2s;
+}
+
+.operationButton:hover {
+  translate: 0rem -0.2rem;
 }
 
 button {

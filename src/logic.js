@@ -26,7 +26,7 @@ class Project {
   }
 
   clearCompleted() {
-    this.arr = this.arr.filter((task) => task.isCompleted);
+    this.arr = this.arr.filter((task) => !task.isCompleted);
   }
 
   numTasks() {
