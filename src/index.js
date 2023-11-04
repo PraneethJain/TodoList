@@ -66,8 +66,18 @@ const createTask = (task) => {
 
   taskCheckbox.type = "checkbox";
   taskCheckbox.checked = task.isCompleted;
+  if (task.isCompleted) {
+    taskDiv.classList.add("done");
+  } else {
+    taskDiv.classList.remove("done");
+  }
   taskCheckbox.onchange = () => {
     task.isCompleted = taskCheckbox.checked;
+    if (task.isCompleted) {
+      taskDiv.classList.add("done");
+    } else {
+      taskDiv.classList.remove("done");
+    }
   };
 
   transitionDiv.classList.add("transition");
