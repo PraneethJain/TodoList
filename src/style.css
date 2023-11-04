@@ -1,0 +1,191 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+:root {
+  --text: #fffafc;
+  --background: #000000;
+  --primary: #d51052;
+  --secondary: #390416;
+  --accent: #ee1b62;
+}
+
+html {
+  font-size: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Poppins";
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 4.21rem; /* 67.36px */
+}
+
+h2 {
+  font-size: 3.158rem; /* 50.56px */
+}
+
+h3 {
+  font-size: 2.369rem; /* 37.92px */
+}
+
+h4 {
+  font-size: 1.777rem; /* 28.48px */
+}
+
+h5 {
+  font-size: 1.333rem; /* 21.28px */
+}
+
+small {
+  font-size: 0.75rem; /* 12px */
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+  font-family: "Poppins";
+  font-weight: 400;
+}
+
+.title {
+  margin: 1rem 18rem;
+  color: var(--primary);
+}
+
+.content {
+  margin: 1rem 5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.sidebar {
+  text-align: center;
+}
+
+.projects {
+  display: flex;
+  flex-direction: column;
+  margin: 1.5rem 0rem;
+}
+
+.projects > button {
+  transition: 0.2s;
+  padding: 0.4rem 2rem;
+  border-radius: 1rem;
+}
+
+.projects > button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.tasks {
+  margin: 1rem 5rem;
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.task {
+  margin: 0rem 0rem 1.4rem 0rem;
+  padding: 1rem 1rem;
+  cursor: pointer;
+  border: 0.1rem solid white;
+  border-radius: 1rem;
+}
+
+.task > .row1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.clear {
+  clear: both;
+}
+
+.checkBox {
+  display: block;
+  cursor: pointer;
+  width: 1rem;
+  height: 1rem;
+  border: 0.1rem solid rgba(255, 255, 255, 0);
+  border-radius: 1rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0rem 0rem 0rem 0.15rem var(--accent);
+}
+
+.checkBox div {
+  width: 2rem;
+  height: 2rem;
+  background-color: var(--accent);
+  top: -2rem;
+  left: -2rem;
+  position: absolute;
+  transform: rotateZ(45deg);
+  z-index: 100;
+}
+
+.checkBox input[type="checkbox"]:checked + div {
+  left: -1rem;
+  top: -1rem;
+}
+
+.checkBox input[type="checkbox"] {
+  position: absolute;
+  left: 5rem;
+  visibility: hidden;
+}
+
+.transition {
+  transition: 300ms ease;
+}
+
+.taskCheckbox {
+  flex: 1;
+}
+
+.taskTitle {
+  flex: 10;
+  text-align: left;
+  padding-left: 1rem;
+}
+
+.taskDueDate {
+  flex: 6;
+  text-align: right;
+}
+
+.taskDescription {
+  visibility: hidden;
+  opacity: 0;
+  height: 0;
+  padding-left: 2rem;
+}
+
+.task.clicked .taskDescription {
+  visibility: visible;
+  opacity: 1;
+  height: auto;
+}
+
+button {
+  background: none;
+  color: inherit;
+  border: none;
+  margin: 0.7rem 0rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+}

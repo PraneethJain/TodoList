@@ -1,49 +1,134 @@
-console.log("testing");
+import { loadProjects, saveProjects } from "./logic";
+import "./style.css";
 
-class Task {
-  constructor(title, description, dueDate, isCompleted) {
-    this.title = title;
-    this.description = description;
-    this.dueDate = dueDate;
-    this.isCompleted = isCompleted;
-  }
+let container = document.querySelector("#container");
+let projects = loadProjects();
 
-  setCompleted() {
-    this.isCompleted = true;
-  }
-}
+const createTitle = () => {
+  let title = document.createElement("h1");
+  title.classList.add("title");
+  title.textContent = "To Do";
 
-class Project {
-  constructor() {
-    this.arr = [];
-  }
+  return title;
+};
 
-  append(...task) {
-    this.arr.push(...task);
-  }
+const createSidebar = (projects) => {
+  let sidebar = document.createElement("div");
+  sidebar.classList.add("sidebar");
 
-  clearAll() {
-    this.arr.length = 0;
-  }
+  let sidebarHeader = document.createElement("h3");
+  sidebarHeader.textContent = "Lists";
+  sidebar.appendChild(sidebarHeader);
 
-  clearCompleted() {
-    this.arr = this.arr.filter((task) => task.isCompleted);
-  }
+  let projectsDiv = document.createElement("div");
+  projectsDiv.classList.add("projects");
+  let allProjectsButton = document.createElement("button");
+  allProjectsButton.textContent = "All";
+  allProjectsButton.onclick = () => {
+    let content = document.querySelector(".content");
+    let oldTaskList = document.querySelector(".tasks");
+    let newTaskList = createTaskList(projects);
+    content.replaceChild(newTaskList, oldTaskList);
+  };
+  projectsDiv.appendChild(allProjectsButton);
 
-  numTasks() {
-    return this.arr.length;
-  }
-}
+  projects.forEach((project) => {
+    let projectButton = document.createElement("button");
+    projectButton.textContent = project.name;
+    projectButton.onclick = () => {
+      let content = document.querySelector(".content");
+      let oldTaskList = document.querySelector(".tasks");
+      let newTaskList = createTaskList([project]);
+      content.replaceChild(newTaskList, oldTaskList);
+    };
+    projectsDiv.appendChild(projectButton);
+  });
+  sidebar.appendChild(projectsDiv);
 
-let defaultProject = new Project();
-let task1 = new Task(1, 2, 3, false);
-let task2 = new Task(2, 3, 4, false);
-defaultProject.append(task1, task2);
-console.log(defaultProject.numTasks());
+  return sidebar;
+};
 
-task1.isCompleted = true;
-defaultProject.clearCompleted();
-console.log(defaultProject.numTasks());
+const createTask = (task) => {
+  let taskDiv = document.createElement("div");
+  taskDiv.classList.add("task");
 
-defaultProject.clearAll();
-console.log(defaultProject.numTasks());
+  let row1 = document.createElement("div");
+  let row2 = document.createElement("div");
+  row1.classList.add("row1");
+  row2.classList.add("row2");
+
+  let checkboxLabel = document.createElement("label");
+  let transitionDiv = document.createElement("div");
+  let taskCheckbox = document.createElement("input");
+  let taskTitleDiv = document.createElement("div");
+  let taskDescriptionDiv = document.createElement("div");
+  let taskDueDateDiv = document.createElement("div");
+
+  taskCheckbox.type = "checkbox";
+  taskCheckbox.checked = task.isCompleted;
+  taskCheckbox.onchange = () => {
+    task.isCompleted = taskCheckbox.checked;
+  };
+
+  transitionDiv.classList.add("transition");
+  checkboxLabel.classList.add("checkBox");
+  taskTitleDiv.classList.add("taskTitle");
+  taskDescriptionDiv.classList.add("taskDescription");
+  taskDueDateDiv.classList.add("taskDueDate");
+
+  taskTitleDiv.textContent = task.title;
+  taskDescriptionDiv.textContent = task.description;
+  taskDueDateDiv.textContent = task.dueDate.toDateString();
+
+  checkboxLabel.appendChild(taskCheckbox);
+  checkboxLabel.appendChild(transitionDiv);
+
+  row1.appendChild(checkboxLabel);
+  row1.appendChild(taskTitleDiv);
+  row1.appendChild(taskDueDateDiv);
+  row2.appendChild(taskDescriptionDiv);
+
+  taskDiv.appendChild(row1);
+  taskDiv.appendChild(row2);
+
+  taskDiv.onclick = (e) => {
+    if (
+      e.target.classList.contains("checkBox") ||
+      e.target.classList.contains("transition") ||
+      e.target.type === "checkbox"
+    ) {
+      return;
+    }
+    taskDiv.classList.toggle("clicked");
+  };
+
+  return taskDiv;
+};
+
+const createTaskList = (projects) => {
+  let tasksDiv = document.createElement("div");
+  tasksDiv.classList.add("tasks");
+  projects.forEach((project) => {
+    for (let task of project.tasks()) {
+      tasksDiv.appendChild(createTask(task));
+    }
+  });
+
+  return tasksDiv;
+};
+
+const createContent = () => {
+  let content = document.createElement("div");
+  content.classList.add("content");
+  content.appendChild(createSidebar(projects));
+  content.appendChild(createTaskList(projects));
+
+  return content;
+};
+
+const initDOM = () => {
+  container.appendChild(createTitle());
+  container.appendChild(createContent());
+};
+
+initDOM();
