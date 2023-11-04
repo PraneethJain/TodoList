@@ -194,3 +194,7 @@ button {
   font-weight: 600;
   cursor: pointer;
 }
+
+button.selected {
+  color: var(--primary);
+}

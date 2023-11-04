@@ -25,6 +25,10 @@ const createSidebar = (projects) => {
   let allProjectsButton = document.createElement("button");
   allProjectsButton.textContent = "All";
   allProjectsButton.onclick = () => {
+    document.querySelectorAll(".projects > button").forEach((button) => {
+      button.classList.remove("selected");
+    });
+    allProjectsButton.classList.add("selected");
     let content = document.querySelector(".content");
     let oldTaskList = document.querySelector(".tasks");
     let newTaskList = createTaskList(projects);
@@ -36,6 +40,10 @@ const createSidebar = (projects) => {
     let projectButton = document.createElement("button");
     projectButton.textContent = project.name;
     projectButton.onclick = () => {
+      document.querySelectorAll(".projects > button").forEach((button) => {
+        button.classList.remove("selected");
+      });
+      projectButton.classList.add("selected");
       let content = document.querySelector(".content");
       let oldTaskList = document.querySelector(".tasks");
       let newTaskList = createTaskList([project]);
