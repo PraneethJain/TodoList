@@ -158,7 +158,10 @@ const createOperationButtons = () => {
   clearCompletedTasksButton.textContent = "Clear Completed";
   clearAllButton.textContent = "Clear All";
 
-  newTaskButton.onclick = () => {};
+  newTaskButton.onclick = () => {
+    let modal = document.querySelector("dialog");
+    modal.showModal();
+  };
 
   clearCompletedTasksButton.onclick = () => {
     currentProjects.forEach((project) => {
@@ -191,9 +194,41 @@ const createContent = () => {
   return content;
 };
 
+const createModal = () => {
+  let modal = document.createElement("dialog");
+  let modalContainer = document.createElement("div");
+  modalContainer.classList.add("modalContainer");
+
+  let taskTitleLabel = document.createElement("label");
+  let taskDescriptionLabel = document.createElement("label");
+  let dueDateLabel = document.createElement("label");
+
+  taskTitleLabel.textContent = "Title";
+  taskDescriptionLabel.textContent = "Description";
+  dueDateLabel.textContent = "Due on";
+
+  let taskTitleInput = document.createElement("input");
+  let taskDescriptionInput = document.createElement("input");
+  let dueDateInput = document.createElement("input");
+  dueDateInput.type = "date";
+
+  taskTitleLabel.appendChild(taskTitleInput);
+  taskDescriptionLabel.appendChild(taskDescriptionInput);
+  dueDateLabel.appendChild(dueDateInput);
+
+  modalContainer.appendChild(taskTitleLabel);
+  modalContainer.appendChild(taskDescriptionLabel);
+  modalContainer.appendChild(dueDateLabel);
+
+  modal.appendChild(modalContainer);
+
+  return modal;
+};
+
 const initDOM = () => {
   container.appendChild(createTitle());
   container.appendChild(createContent());
+  container.appendChild(createModal());
 };
 
 initDOM();
