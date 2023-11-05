@@ -159,6 +159,11 @@ const createOperationButtons = () => {
   clearAllButton.textContent = "Clear All";
 
   newTaskButton.onclick = () => {
+    if (currentProjects.length !== 1) {
+      alert("Please choose a task list");
+      return;
+    }
+
     let modal = document.querySelector("dialog");
     modal.showModal();
   };
