@@ -30,6 +30,7 @@ const createSidebar = () => {
 
   let projectsDiv = document.createElement("div");
   projectsDiv.classList.add("projects");
+
   let allProjectsButton = document.createElement("button");
   allProjectsButton.textContent = "All";
   allProjectsButton.onclick = () => {
@@ -43,8 +44,8 @@ const createSidebar = () => {
     let newTaskList = createTaskList();
     content.replaceChild(newTaskList, oldTaskList);
   };
-  allProjectsButton.classList.add("selected");
   projectsDiv.appendChild(allProjectsButton);
+  allProjectsButton.classList.add("selected");
 
   currentProjects.forEach((project) => {
     let projectButton = document.createElement("button");
