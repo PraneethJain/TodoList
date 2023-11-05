@@ -94,4 +94,4 @@ const test = () => {
   console.log(testProject.numTasks());
 };
 
-export { loadProjects, saveProjects };
+export { loadProjects, saveProjects, Task, Project };

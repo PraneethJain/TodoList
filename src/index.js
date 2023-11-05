@@ -1,4 +1,4 @@
-import { loadProjects, saveProjects } from "./logic";
+import { loadProjects, saveProjects, Task, Project } from "./logic";
 import "./style.css";
 
 let container = document.querySelector("#container");
@@ -202,15 +202,26 @@ const createModal = () => {
   let taskTitleLabel = document.createElement("label");
   let taskDescriptionLabel = document.createElement("label");
   let dueDateLabel = document.createElement("label");
+  let createButton = document.createElement("button");
 
   taskTitleLabel.textContent = "Title";
   taskDescriptionLabel.textContent = "Description";
   dueDateLabel.textContent = "Due on";
+  createButton.textContent = "Create";
 
   let taskTitleInput = document.createElement("input");
   let taskDescriptionInput = document.createElement("input");
   let dueDateInput = document.createElement("input");
   dueDateInput.type = "date";
+  createButton.onclick = () => {
+    const taskTitle = taskTitleInput.value;
+    const taskDescription = taskDescriptionInput.value;
+    const dueDate = dueDateInput.valueAsDate;
+    let task = new Task(taskTitle, taskDescription, dueDate);
+    currentProjects[0].append(task);
+    updateTaskList();
+    modal.close();
+  };
 
   taskTitleLabel.appendChild(taskTitleInput);
   taskDescriptionLabel.appendChild(taskDescriptionInput);
@@ -219,6 +230,7 @@ const createModal = () => {
   modalContainer.appendChild(taskTitleLabel);
   modalContainer.appendChild(taskDescriptionLabel);
   modalContainer.appendChild(dueDateLabel);
+  modalContainer.appendChild(createButton);
 
   modal.appendChild(modalContainer);
 
