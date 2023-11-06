@@ -196,17 +196,20 @@ const createOperationButtons = () => {
   let clearCompletedTasksButton = document.createElement("button");
   let clearAllButton = document.createElement("button");
   let deleteListButton = document.createElement("button");
+  let saveLists = document.createElement("button");
 
   operationButtons.classList.add("operationButtons");
   newTaskButton.classList.add("operationButton");
   clearCompletedTasksButton.classList.add("operationButton");
   clearAllButton.classList.add("operationButton");
   deleteListButton.classList.add("operationButton");
+  saveLists.classList.add("operationButton");
 
   newTaskButton.textContent = "New Task";
   clearCompletedTasksButton.textContent = "Clear Completed";
   clearAllButton.textContent = "Clear All";
   deleteListButton.textContent = "Delete List";
+  saveLists.textContent = "Save Lists";
 
   newTaskButton.onclick = () => {
     let allProjectsButton = document.querySelector("#all");
@@ -246,10 +249,16 @@ const createOperationButtons = () => {
     updateTaskList();
   };
 
+  saveLists.onclick = () => {
+    saveProjects(allProjects);
+    alert("Saved all tasks locally!");
+  };
+
   operationButtons.appendChild(newTaskButton);
   operationButtons.appendChild(clearCompletedTasksButton);
   operationButtons.appendChild(clearAllButton);
   operationButtons.appendChild(deleteListButton);
+  operationButtons.appendChild(saveLists);
 
   return operationButtons;
 };

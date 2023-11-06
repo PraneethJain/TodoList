@@ -5,10 +5,6 @@ class Task {
     this.dueDate = dueDate;
     this.isCompleted = isCompleted;
   }
-
-  setCompleted() {
-    this.isCompleted = true;
-  }
 }
 
 class Project {
@@ -41,36 +37,28 @@ class Project {
 }
 
 const loadProjects = () => {
-  let project1 = new Project("List 1");
-  let task1 = new Task(
-    "Task Title 1",
-    "Very big task description 1",
-    new Date("2023-11-18"),
-    false
-  );
-  let task2 = new Task(
-    "Task Title 2",
-    "Very big task description 2",
-    new Date("2023-11-19"),
-    false
-  );
-  project1.append(task1, task2);
-
-  let project2 = new Project("List 2");
-  let task3 = new Task(
-    "Task Title 3",
-    "Very big task description 3",
-    new Date("2023-11-20"),
-    false
-  );
-  project2.append(task3);
-
-  let project3 = new Project("List 3");
-
-  return [project1, project2, project3];
+  const projectsArray = JSON.parse(localStorage.getItem("projectsArray"));
+  let projects = [];
+  projectsArray.forEach((proj) => {
+    let project = new Project(proj.name);
+    proj.arr.forEach((tas) => {
+      let task = new Task(
+        tas.title,
+        tas.description,
+        new Date(tas.dueDate),
+        tas.isCompleted
+      );
+      project.append(task);
+    });
+    projects.push(project);
+  });
+  return projects;
 };
 
-const saveProjects = () => {};
+const saveProjects = (projects) => {
+  const projectsArray = JSON.stringify(projects);
+  localStorage.setItem("projectsArray", projectsArray);
+};
 
 const test = () => {
   let testProject = new Project();
