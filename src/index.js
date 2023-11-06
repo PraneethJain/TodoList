@@ -33,6 +33,7 @@ const createSidebar = () => {
 
   let allProjectsButton = document.createElement("button");
   allProjectsButton.textContent = "All";
+  allProjectsButton.id = "all";
   allProjectsButton.onclick = () => {
     document.querySelectorAll(".projects > button").forEach((button) => {
       button.classList.remove("selected");
@@ -194,18 +195,22 @@ const createOperationButtons = () => {
   let newTaskButton = document.createElement("button");
   let clearCompletedTasksButton = document.createElement("button");
   let clearAllButton = document.createElement("button");
+  let deleteListButton = document.createElement("button");
 
   operationButtons.classList.add("operationButtons");
   newTaskButton.classList.add("operationButton");
   clearCompletedTasksButton.classList.add("operationButton");
   clearAllButton.classList.add("operationButton");
+  deleteListButton.classList.add("operationButton");
 
   newTaskButton.textContent = "New Task";
   clearCompletedTasksButton.textContent = "Clear Completed";
   clearAllButton.textContent = "Clear All";
+  deleteListButton.textContent = "Delete List";
 
   newTaskButton.onclick = () => {
-    if (currentProjects.length !== 1) {
+    let allProjectsButton = document.querySelector("#all");
+    if (allProjectsButton.classList.contains("selected")) {
       alert("Please choose a task list");
       return;
     }
@@ -228,9 +233,23 @@ const createOperationButtons = () => {
     updateTaskList();
   };
 
+  deleteListButton.onclick = () => {
+    let allProjectsButton = document.querySelector("#all");
+    if (allProjectsButton.classList.contains("selected")) {
+      alert("Please choose a task list");
+      return;
+    }
+    allProjects.splice(allProjects.indexOf(currentProjects[0]), 1);
+    currentProjects = allProjects;
+    document.querySelector(".selected").remove();
+    allProjectsButton.classList.add("selected");
+    updateTaskList();
+  };
+
   operationButtons.appendChild(newTaskButton);
   operationButtons.appendChild(clearCompletedTasksButton);
   operationButtons.appendChild(clearAllButton);
+  operationButtons.appendChild(deleteListButton);
 
   return operationButtons;
 };
