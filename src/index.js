@@ -47,6 +47,46 @@ const createSidebar = () => {
   projectsDiv.appendChild(allProjectsButton);
   allProjectsButton.classList.add("selected");
 
+  let newProjectModal = document.createElement("dialog");
+  let newProjectDiv = document.createElement("div");
+  newProjectDiv.classList.add("modalContainer");
+  let newProjectLabel = document.createElement("label");
+  newProjectLabel.textContent = "Name";
+  let newProjectInput = document.createElement("input");
+  newProjectLabel.appendChild(newProjectInput);
+  let newProjectButton = document.createElement("button");
+  newProjectButton.textContent = "+";
+  newProjectButton.classList.add("newProjectButton");
+  newProjectButton.onclick = () => {
+    newProjectModal.showModal();
+  };
+  projectsDiv.appendChild(newProjectButton);
+  let createButton = document.createElement("button");
+  createButton.textContent = "Create";
+  createButton.onclick = () => {
+    let projectName = newProjectInput.value;
+    let project = new Project(projectName);
+    allProjects.push(project);
+    document.querySelectorAll(".projects > button").forEach((button) => {
+      button.classList.remove("selected");
+    });
+    let projectButton = document.createElement("button");
+    projectButton.textContent = project.name;
+    projectButton.onclick = () => {
+      document.querySelectorAll(".projects > button").forEach((button) => {
+        button.classList.remove("selected");
+      });
+      projectButton.classList.add("selected");
+      currentProjects = [project];
+      updateTaskList();
+    };
+    projectButton.classList.add("selected");
+    projectsDiv.insertBefore(projectButton, newProjectButton);
+    currentProjects = [project];
+    updateTaskList();
+    newProjectModal.close();
+  };
+
   currentProjects.forEach((project) => {
     let projectButton = document.createElement("button");
     projectButton.textContent = project.name;
@@ -58,9 +98,14 @@ const createSidebar = () => {
       currentProjects = [project];
       updateTaskList();
     };
-    projectsDiv.appendChild(projectButton);
+    projectsDiv.insertBefore(projectButton, newProjectButton);
   });
+
+  newProjectDiv.appendChild(newProjectLabel);
+  newProjectDiv.appendChild(createButton);
+  newProjectModal.appendChild(newProjectDiv);
   sidebar.appendChild(projectsDiv);
+  sidebar.appendChild(newProjectModal);
 
   return sidebar;
 };
@@ -165,7 +210,7 @@ const createOperationButtons = () => {
       return;
     }
 
-    let modal = document.querySelector("dialog");
+    let modal = document.querySelector("#newTask");
     modal.showModal();
   };
 
@@ -202,6 +247,7 @@ const createContent = () => {
 
 const createModal = () => {
   let modal = document.createElement("dialog");
+  modal.id = "newTask";
   let modalContainer = document.createElement("div");
   modalContainer.classList.add("modalContainer");
 

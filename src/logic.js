@@ -65,19 +65,12 @@ const loadProjects = () => {
   );
   project2.append(task3);
 
-  return [project1, project2];
+  let project3 = new Project("List 3");
+
+  return [project1, project2, project3];
 };
 
 const saveProjects = () => {};
-
-const getDefaultProject = () => {
-  let defaultProject = new Project("All");
-  for (const project of loadProjects()) {
-    defaultProject.append(...project.tasks());
-  }
-
-  return defaultProject;
-};
 
 const test = () => {
   let testProject = new Project();
