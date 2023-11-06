@@ -38,6 +38,9 @@ class Project {
 
 const loadProjects = () => {
   const projectsArray = JSON.parse(localStorage.getItem("projectsArray"));
+  if (!projectsArray) {
+    return [];
+  }
   let projects = [];
   projectsArray.forEach((proj) => {
     let project = new Project(proj.name);
